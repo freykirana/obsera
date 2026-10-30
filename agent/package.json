@@ -1,0 +1,32 @@
+{
+  "name": "obsera-honeypot-agent",
+  "version": "1.0.0",
+  "description": "Obsera honeypot agent - forwards failed SSH logins from Cowrie's JSON log to the Obsera backend",
+  "main": "honeypot-agent.js",
+  "bin": {
+    "obsera-honeypot-agent": "honeypot-agent.js"
+  },
+  "scripts": {
+    "start": "node honeypot-agent.js monitor",
+    "test": "node honeypot-agent.js test",
+    "dev": "nodemon honeypot-agent.js monitor"
+  },
+  "keywords": [
+    "honeypot",
+    "cowrie",
+    "ssh",
+    "security",
+    "monitoring"
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "tail": "^2.2.6"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

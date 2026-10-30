@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Users {
+  user_id       String   @id @default(uuid()) @map("users_id") @db.Uuid
+  email         String   @unique @db.VarChar(255)
+  password_hash String   @db.VarChar(255)
+  display_name  String?  @db.VarChar(255)
+  is_active     Boolean  @default(true)
+  last_login_at DateTime?
+  last_active   DateTime?
+  // Tokens issued before this moment are rejected (signs out other sessions)
+  password_changed_at DateTime?
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  reviewed_logs AttackLogs[] @relation("ReviewedBy")
+
+  @@map("users")
+}
+
+model Attackers {
+  attacker_id String   @id @default(uuid()) @db.Uuid
+  source_ip   String   @unique @db.Inet
+  created_at  DateTime @default(now())
+
+  logs        AttackLogs[]
+
+  @@map("attackers")
+}
+
+model AttackLogs {
+  log_id           String   @id @default(uuid()) @db.Uuid
+  access_time      DateTime
+  attacker_id      String   @db.Uuid
+  username_attempt String?  @db.VarChar(255)
+  password_attempt String?  @db.VarChar(255)
+  attempt_number   Int
+  status           String?  @db.VarChar(50)
+  // Agent SENSOR_ID that captured the attempt (null for logs ingested before it was stored)
+  sensor_id        String?  @db.VarChar(100)
+  reviewed_by      String?  @db.Uuid
+  created_at       DateTime @default(now())
+
+  attacker         Attackers @relation(fields: [attacker_id], references: [attacker_id])
+  reviewedBy       Users?    @relation("ReviewedBy", fields: [reviewed_by], references: [user_id])
+
+  @@map("attack_logs")
+}
+
+model Reports {
+  report_id      String   @id @default(uuid()) @db.Uuid
+  title          String   @db.VarChar(255)
+  period         String   @db.VarChar(50)
+  total_attacks  Int
+  size_kb        Float
+  status         String   @db.VarChar(50)
+  created_at     DateTime @default(now())
+  // Exact window covered, fixed when the report is generated (null for legacy reports)
+  period_start   DateTime?
+  period_end     DateTime?
+  time_zone      String?  @db.VarChar(50)
+  generated_by   String?  @db.VarChar(255)
+  // Byte size of each generated file in uploads/reports
+  pdf_bytes      Int?
+  csv_bytes      Int?
+  json_bytes     Int?
+
+  @@map("reports")
+}
+
+model system_settings {
+  setting_id              Int      @id @default(autoincrement()) // Diubah dari id
+  session_timeout_minutes Int      @default(30)
+  timezone                String   @default("WIB")
+  updated_at              DateTime @updatedAt
+
+  @@map("system_settings") // Memastikan nama tabel di DB tetap konsisten
+}

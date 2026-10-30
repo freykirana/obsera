@@ -1,0 +1,179 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Theme = shadcn CSS variables only, palette derived from the Obsera mark (:root light, .dark dark). Components use semantic
+ * classes (bg-card, text-muted-foreground, bg-primary, bg-status-critical, ...); no raw
+ * palette classes or hex values in components.
+ */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  /* next/font exposes the families as --font-plex-sans / --font-plex-mono on <html> */
+  --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, SFMono-Regular, monospace;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-muted: var(--sidebar-muted);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  /* Signal (orange): bg-signal / text-signal for fills and icons, text-signal-text for text,
+     text-signal-foreground on a bg-signal fill */
+  --color-signal: var(--signal);
+  --color-signal-text: var(--signal-text);
+  --color-signal-foreground: var(--signal-foreground);
+  /* Status signals: bg-status-critical, text-status-ok, ... */
+  --color-status-critical: var(--status-critical);
+  --color-status-warning: var(--status-warning);
+  --color-status-ok: var(--status-ok);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+}
+
+:root {
+  /* 6px panels (rounded-lg), 4px inputs and buttons (rounded-md) */
+  --radius: 0.375rem;
+  /* Palette derived from the Obsera mark: navy ink, cool neutrals, the mark's inner blue */
+  --background: oklch(0.975 0.005 258.3); /* #F5F7FA */
+  --foreground: oklch(0.201 0.042 260.7); /* #0B1629 */
+  --card: oklch(1 0 0); /* #FFFFFF */
+  --card-foreground: oklch(0.201 0.042 260.7);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.201 0.042 260.7);
+  /* Brand / interaction color: the mark's inner wall */
+  --primary: oklch(0.538 0.175 257.5); /* #1B6AD1 */
+  --primary-foreground: oklch(1 0 0); /* #FFFFFF */
+  --secondary: oklch(0.96 0.008 253.9); /* #EEF2F7 */
+  --secondary-foreground: oklch(0.201 0.042 260.7);
+  --muted: oklch(0.96 0.008 253.9); /* #EEF2F7 */
+  --muted-foreground: oklch(0.522 0.039 255.3); /* #5B6B80 */
+  /* shadcn "accent" = hover / highlighted item in menus, not the brand color */
+  --accent: oklch(0.96 0.008 253.9); /* #EEF2F7 */
+  --accent-foreground: oklch(0.201 0.042 260.7);
+  --destructive: oklch(0.577 0.215 27.3); /* #DC2626 */
+  --border: oklch(0.926 0.011 256.7); /* #E2E7EE */
+  --input: oklch(0.926 0.011 256.7);
+  --ring: oklch(0.538 0.175 257.5); /* = primary */
+  /*
+   * Orange is a signal, never the brand: warnings, "new" markers, non-critical badges,
+   * hovered chart data, active auto-refresh. Not for buttons, links, active tabs or nav.
+   * --signal is for fills and icons; --signal-text for orange text (#D97706 is only 3.2:1
+   * on white, so light mode text uses a darker shade to reach AA).
+   */
+  --signal: oklch(0.666 0.157 58.3); /* #D97706 */
+  --signal-text: oklch(0.555 0.146 49); /* #B45309, 5.0:1 on white */
+  --signal-foreground: oklch(0.201 0.042 260.7); /* #0B1629 on a signal fill, 5.7:1 */
+  --status-critical: oklch(0.577 0.215 27.3); /* #DC2626 */
+  --status-warning: var(--signal);
+  --status-ok: oklch(0.627 0.17 149.2); /* #16A34A */
+  /* Charts: primary main series, signal for highlight / hover, mark blues and slate after */
+  --chart-1: var(--primary);
+  --chart-2: var(--signal);
+  --chart-3: oklch(0.464 0.091 250.4); /* #2E5C8A */
+  --chart-4: oklch(0.803 0.072 250); /* #9CC3EC */
+  --chart-5: oklch(0.522 0.039 255.3); /* #5B6B80 */
+  /* Sidebar is always navy (light and dark), a hard edge between navigation and work area */
+  --sidebar: oklch(0.201 0.042 260.7); /* #0B1629 */
+  --sidebar-foreground: oklch(0.872 0.029 256.5); /* #C9D6E8 */
+  --sidebar-muted: oklch(0.657 0.045 255.1); /* #7F93AD, secondary text and idle icons */
+  --sidebar-primary: oklch(0.635 0.164 255); /* #3B8BEB, active item bar */
+  --sidebar-primary-foreground: oklch(0.162 0.04 262.7); /* #050D1F */
+  --sidebar-accent: oklch(0.257 0.054 259.7); /* #13233D, hover and active item */
+  --sidebar-accent-foreground: oklch(1 0 0); /* #FFFFFF */
+  --sidebar-border: oklch(0.268 0.052 259); /* #16263F */
+  --sidebar-ring: oklch(0.635 0.164 255);
+}
+
+.dark {
+  --background: oklch(0.163 0.028 259.9); /* #070E1A */
+  --foreground: oklch(0.935 0.015 257.2); /* #E3EAF4 */
+  --card: oklch(0.2 0.036 259.5); /* #0C1626 */
+  --card-foreground: oklch(0.935 0.015 257.2);
+  --popover: oklch(0.2 0.036 259.5);
+  --popover-foreground: oklch(0.935 0.015 257.2);
+  --primary: oklch(0.635 0.164 255); /* #3B8BEB */
+  --primary-foreground: oklch(0.162 0.04 262.7); /* #050D1F */
+  --secondary: oklch(0.247 0.053 263); /* #13203A */
+  --secondary-foreground: oklch(0.935 0.015 257.2);
+  --muted: oklch(0.247 0.053 263); /* #13203A */
+  --muted-foreground: oklch(0.671 0.041 255.7); /* #8597AF */
+  --accent: oklch(0.247 0.053 263); /* #13203A */
+  --accent-foreground: oklch(0.935 0.015 257.2);
+  --destructive: oklch(0.637 0.208 25.3); /* #EF4444 */
+  --border: oklch(0.277 0.049 260.7); /* #1A2840 */
+  --input: oklch(0.277 0.049 260.7);
+  --ring: oklch(0.635 0.164 255);
+  --signal: oklch(0.769 0.165 70.1); /* #F59E0B */
+  --signal-text: var(--signal); /* 8.4:1 on the dark card */
+  --signal-foreground: oklch(0.201 0.042 260.7); /* #0B1629, 8.4:1 on #F59E0B */
+  --status-critical: oklch(0.637 0.208 25.3); /* #EF4444 */
+  --status-warning: var(--signal);
+  --status-ok: oklch(0.723 0.192 149.6); /* #22C55E */
+  --chart-1: var(--primary);
+  --chart-2: var(--signal);
+  --chart-3: oklch(0.464 0.091 250.4); /* #2E5C8A */
+  --chart-4: oklch(0.803 0.072 250); /* #9CC3EC */
+  --chart-5: oklch(0.522 0.039 255.3); /* #5B6B80 */
+  /* Darker than the page background; the sidebar border carries the edge */
+  --sidebar: oklch(0.149 0.026 259.1); /* #050B16 */
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    /* Every number lines up in tables, stats and axes */
+    font-variant-numeric: tabular-nums;
+  }
+  /* Keyboard focus is always visible. Components that draw their own focus ring
+     (outline-none + ring utilities) override this from the utilities layer. */
+  /* Chart axis numbers and dates are technical data: monospaced like the tables */
+  .recharts-cartesian-axis-tick-value {
+    font-family: var(--font-mono);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+  /* Edge/IE draw their own reveal and clear buttons inside inputs; the app ships its own
+     show-password toggle, so hide the native ones to avoid two eye icons */
+  input::-ms-reveal,
+  input::-ms-clear {
+    display: none;
+  }
+}

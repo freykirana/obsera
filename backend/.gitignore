@@ -1,0 +1,8 @@
+node_modules/
+.env
+npm-debug.log*
+
+# local scratch scripts with hardcoded credentials (anchored so src/server.js stays tracked)
+/server.js
+/test-connection.js
+/test-db.js
