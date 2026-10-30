@@ -9,7 +9,6 @@
 
 <p align="center">
   SSH honeypot monitoring dashboard. Final-year project, tested with simulated attacks.<br>
-  <sub>Proyek tugas akhir. Dokumentasi berbahasa Inggris.</sub>
 </p>
 
 <!-- TODO: links line, e.g. **[Demo](https://…)** · **[Case study](https://…)** · **[Video](https://…)** -->
