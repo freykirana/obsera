@@ -187,6 +187,6 @@ No license has been chosen yet, so all rights are reserved by default.
 
 ## Author
 
-Frey Kirana: final-year project. <!-- TODO: university and study program -->
+Dyah Ayu Pramesty Regita Putri: final-year project. <!-- TODO: university and study program -->
 
 [GitHub](https://github.com/freykirana) · <!-- TODO: LinkedIn URL -->
